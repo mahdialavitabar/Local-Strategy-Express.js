@@ -52,7 +52,7 @@ app.set("view engine", "hjs");
 
 app.use(
   session({
-    secret: "legenw84itdary",
+    secret: "mahdialavitabar",
     resave: false,
     saveUninitialized: true,
     cookie: { secure: true },
