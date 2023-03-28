@@ -5,19 +5,19 @@ const LocalStrategy = require("passport-local").Strategy;
 const User = require("../models/users");
 
 passport.use(
-  new LocalStrategy(async function (username, password, done) {
-    try {
-      const user = await User.findOne({ username: username });
-      if (!user) {
-        return done(null, false, { message: "Incorrect username." });
+  new LocalStrategy(function (username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) {
+        return done(err);
       }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: "Incorrect password." });
+      if (!user) {
+        return done(null, false);
+      }
+      if (!user.verifyPassword(password)) {
+        return done(null, false);
       }
       return done(null, user);
-    } catch (err) {
-      return done(err);
-    }
+    });
   })
 );
 
@@ -26,13 +26,11 @@ router.get("/", function (req, res, next) {
   res.render("login", { title: "Login" });
 });
 
-/* POST login page. */
 router.post(
   "/",
   passport.authenticate("local", { failureRedirect: "/login" }),
   function (req, res) {
-    // Successful authentication, redirect to protected content
-    res.redirect("/protected");
+    res.redirect("/");
   }
 );
 

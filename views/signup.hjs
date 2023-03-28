@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="/stylesheets/signup.css" />
   </head>
   <body>
-    <form method="POST">
+    <form method="POST" action="/signup">
       <label for="username">Username:</label>
       <input type="text" id="username" name="username" />
       <br />
